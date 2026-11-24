@@ -371,8 +371,7 @@ u();setInterval(()=>{if(!document.hidden)u()},1000)})();
 $('#addcal').onclick=()=>{const p=n=>String(n).padStart(2,'0'),f=d=>`${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}T${p(d.getHours())}${p(d.getMinutes())}00`,e=new Date(+D+2.5*36e5),v=C.functions[0],loc=v.p+(v.a?', '+v.a:''),title=C.groom+' & '+C.bride+"'s Wedding";
 const ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 if(ios){/* iPhone/iPad: open the native Calendar sheet */
-const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Wedding Invite//EN','BEGIN:VEVENT','UID:'+f(D)+'@wedding-invite','DTSTAMP:'+f(new Date()),'SUMMARY:'+title,'DTSTART:'+f(D),'DTEND:'+f(e),'LOCATION:'+loc.replace(/,/g,' -'),'END:VEVENT','END:VCALENDAR'].join(String.fromCharCode(13,10));
-location.href='data:text/calendar;charset=utf8,'+encodeURIComponent(ics)}
+location.href='wedding.ics'}
 else{/* Android & desktop: open Google Calendar's add-event page (no file download) */
 window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(title)+'&dates='+f(D)+'/'+f(e)+'&location='+encodeURIComponent(loc),'_blank','noopener')}};
 
