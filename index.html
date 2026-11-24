@@ -386,6 +386,10 @@ function petals(n){for(let i=0;i<n;i++){const p=document.createElement('div');p.
 const aud=$('#aud'),mus=$('#mus');
 if(C.music){aud.src=C.music;mus.classList.add('show','off');mus.onclick=()=>{if(aud.paused){aud.play();mus.classList.remove('off')}else{aud.pause();mus.classList.add('off')}}}
 else if(C.songLink){mus.href=C.songLink;mus.target='_blank';mus.rel='noopener';mus.classList.add('show');mus.innerHTML='♪';mus.title='Our song'}
+/* pause music when the tab/app is in the background, resume when the guest comes back */
+let wasPlaying=false;
+document.addEventListener('visibilitychange',()=>{if(!C.music)return;if(document.hidden){if(!aud.paused){wasPlaying=true;aud.pause()}}else if(wasPlaying){wasPlaying=false;aud.play().catch(()=>{})}});
+addEventListener('pagehide',()=>{if(!aud.paused)aud.pause()});
 function playMusic(){if(!C.music)return;aud.volume=0;aud.play().then(()=>{mus.classList.remove('off');let v=0;const t=setInterval(()=>{v=Math.min(.7,v+.04);aud.volume=v;if(v>=.7)clearInterval(t)},200)}).catch(()=>{})}
 
 /* preload then open */
