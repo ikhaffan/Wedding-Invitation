@@ -369,8 +369,8 @@ set(MIN);window.__sd=set})();
 el.innerHTML=`<b>${d}</b>days<i>·</i><b>${String(h).padStart(2,'0')}</b>hrs<i>·</i><b>${String(m).padStart(2,'0')}</b>min<i>·</i><b>${String(s%60).padStart(2,'0')}</b>sec`}
 u();setInterval(()=>{if(!document.hidden)u()},1000)})();
 $('#addcal').onclick=()=>{const p=n=>String(n).padStart(2,'0'),f=d=>`${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}T${p(d.getHours())}${p(d.getMinutes())}00`,e=new Date(+D+2.5*36e5),v=C.functions[0],loc=v.p+(v.a?', '+v.a:''),title=C.groom+' & '+C.bride+"'s Wedding";
-const ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
-if(ios){/* iPhone/iPad: open the native Calendar sheet */
+const ua=navigator.userAgent,ios=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1),safari=ios&&!/CriOS|FxiOS|EdgiOS|OPiOS|GSA/.test(ua);
+if(safari){/* Safari on iPhone/iPad: open the native Calendar sheet (iOS Chrome etc. use Google Calendar below) */
 location.href='wedding.ics'}
 else{/* Android & desktop: open Google Calendar's add-event page (no file download) */
 window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(title)+'&dates='+f(D)+'/'+f(e)+'&location='+encodeURIComponent(loc),'_blank','noopener')}};
