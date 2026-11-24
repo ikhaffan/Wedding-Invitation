@@ -368,9 +368,13 @@ set(MIN);window.__sd=set})();
 (function(){const el=$('#cd');function u(){let s=Math.max(0,Math.floor((D-Date.now())/1000));const d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);
 el.innerHTML=`<b>${d}</b>days<i>·</i><b>${String(h).padStart(2,'0')}</b>hrs<i>·</i><b>${String(m).padStart(2,'0')}</b>min<i>·</i><b>${String(s%60).padStart(2,'0')}</b>sec`}
 u();setInterval(()=>{if(!document.hidden)u()},1000)})();
-$('#addcal').onclick=()=>{const p=n=>String(n).padStart(2,'0'),f=d=>`${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}T${p(d.getHours())}${p(d.getMinutes())}00`,e=new Date(+D+4*36e5);
-const ics=`BEGIN:VCALENDAR\r\nVERSION:2.0\r\nBEGIN:VEVENT\r\nSUMMARY:${C.groom} & ${C.bride}'s Wedding\r\nDTSTART:${f(D)}\r\nDTEND:${f(e)}\r\nLOCATION:${C.functions[0].p}${C.functions[0].a?', '+C.functions[0].a:''}\r\nEND:VEVENT\r\nEND:VCALENDAR`;
-const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));a.download='wedding.ics';a.click()};
+$('#addcal').onclick=()=>{const p=n=>String(n).padStart(2,'0'),f=d=>`${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}T${p(d.getHours())}${p(d.getMinutes())}00`,e=new Date(+D+2.5*36e5),v=C.functions[0],loc=v.p+(v.a?', '+v.a:''),title=C.groom+' & '+C.bride+"'s Wedding";
+const ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+if(ios){/* iPhone/iPad: open the native Calendar sheet */
+const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Wedding Invite//EN','BEGIN:VEVENT','UID:'+f(D)+'@wedding-invite','DTSTAMP:'+f(new Date()),'SUMMARY:'+title,'DTSTART:'+f(D),'DTEND:'+f(e),'LOCATION:'+loc.replace(/,/g,' -'),'END:VEVENT','END:VCALENDAR'].join(String.fromCharCode(13,10));
+location.href='data:text/calendar;charset=utf8,'+encodeURIComponent(ics)}
+else{/* Android & desktop: open Google Calendar's add-event page (no file download) */
+window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(title)+'&dates='+f(D)+'/'+f(e)+'&location='+encodeURIComponent(loc),'_blank','noopener')}};
 
 /* confetti + petals */
 function burst(){const cv=$('#cf'),x=cv.getContext('2d');cv.width=innerWidth;cv.height=innerHeight;const r=$('#paper').getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,cols=['#6e1f2f','#b8914f','#e6cf9a','#f08aa0','#fff'];
